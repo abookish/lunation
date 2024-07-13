@@ -22,8 +22,9 @@ export default function HomeScreen() {
         <ThemedText type="title">Hello world!</ThemedText>
         <HelloWave />
       </ThemedView>
+      <Calendar/>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText type="subtitle">TEST Step 1: Try it</ThemedText>
         <ThemedText>
           Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
           Press{' '}
