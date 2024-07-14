@@ -10,7 +10,15 @@ import { ThemedView } from '@/components/ThemedView';
 
 
 export default function HomeScreen() {
-  const [selected, setSelected] = useState('')
+  
+  const [selected, setSelected] = useState<string[]>([])
+  let selectedDates:any = []
+  let markedDates = Object.fromEntries(
+  selected.map((date: any) => [
+    date,
+    { selected: true, disableTouchEvent: true, color: 'green' }
+  ])
+);
 
   return (
     <ParallaxScrollView
@@ -25,19 +33,17 @@ export default function HomeScreen() {
         <ThemedText type="title">Hello world!</ThemedText>
         <HelloWave />
       </ThemedView>
-      //todo move calendar to its own component
       <Calendar
         markingType={'period'}
+        markedDates={markedDates}
+
         onDayPress={(day:any) => {
           console.log('onDayPress', day)
-          setSelected(day.dateString)
+          setSelected(prevSelected => [...prevSelected, day.dateString]);
         }
          }
-        markedDates={{
-          [selected]: {selected: true, disableTouchEvent: true, color: 'green'}
-
-        }}
-        /* onDayPress={day => {
+         
+             /* onDayPress={day => {
           
         }}
         markedDates={{
