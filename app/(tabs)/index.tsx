@@ -25,6 +25,7 @@ export default function HomeScreen() {
         <ThemedText type="title">Hello world!</ThemedText>
         <HelloWave />
       </ThemedView>
+      //todo move calendar to its own component
       <Calendar
         markingType={'period'}
         onDayPress={(day:any) => {
@@ -33,7 +34,7 @@ export default function HomeScreen() {
         }
          }
         markedDates={{
-          [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+          [selected]: {selected: true, disableTouchEvent: true, color: 'green'}
 
         }}
         /* onDayPress={day => {
