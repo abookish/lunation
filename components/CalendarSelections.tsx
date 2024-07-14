@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
 import React, {useState}from 'react';
+//todo async storage
+// todo first day/last day stuff
+//todo basic math stuff
 
 export function CalendarSelections() {
    

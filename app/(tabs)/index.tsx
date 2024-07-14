@@ -1,8 +1,8 @@
 import { Image, Platform } from 'react-native';
 import React, {useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Calendar, CalendarList } from 'react-native-calendars';
-import dateFns from 'date-fns';
+
+import { CalendarSelections } from '@/components/CalendarSelections';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -10,15 +10,7 @@ import { ThemedView } from '@/components/ThemedView';
 
 
 export default function HomeScreen() {
-  
-  const [selected, setSelected] = useState<string[]>([])
-  let selectedDates:any = []
-  let markedDates = Object.fromEntries(
-  selected.map((date: any) => [
-    date,
-    { selected: true, disableTouchEvent: true, color: 'green' }
-  ])
-);
+ 
 
   return (
     <ParallaxScrollView
@@ -33,23 +25,7 @@ export default function HomeScreen() {
         <ThemedText type="title">Hello world!</ThemedText>
         <HelloWave />
       </ThemedView>
-      <Calendar
-        markingType={'period'}
-        markedDates={markedDates}
-
-        onDayPress={(day:any) => {
-          console.log('onDayPress', day)
-          setSelected(prevSelected => [...prevSelected, day.dateString]);
-        }
-         }
-         
-             /* onDayPress={day => {
-          
-        }}
-        markedDates={{
-        }} */
-      
-      />
+   <CalendarSelections />
     </ParallaxScrollView>
   );
 }
