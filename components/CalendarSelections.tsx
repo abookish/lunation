@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
-import React, {useState}from 'react';
+import React, {useState, useEffect}from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //todo async storage
 // todo first day/last day stuff
@@ -32,6 +32,13 @@ const getData = async () => {
     // error reading value
   }
 };
+useEffect(() => {
+  const fetchData = async () => {
+    const data = await getData();
+    console.log('Stored: ', data);
+  };
+  fetchData();
+}, []);
 
 
   return (
@@ -41,8 +48,8 @@ const getData = async () => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-    storeData(markedDates) //todo probs doesnt go here
-    console.log('store: ', getData())
+    storeData(markedDates) //does it go here??
+    console.log('store: ', getData()) //not resolving, why??
     }
      }
   
