@@ -19,11 +19,12 @@ export function CalendarSelections() {
 const storeData = async (value: any) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('my-key', jsonValue);
+    await AsyncStorage.setItem('my-key', jsonValue); //todo add, don't set
   } catch (e) {
     // saving error
   }
 };
+//todo useEffect with selected as a condition? or better to reformat each time? 
 const getData = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem('my-key');
@@ -32,11 +33,13 @@ const getData = async () => {
     // error reading value
   }
 };
+const fetchData = async () => { //todo make this get/fetch combo more concise or something
+  const data = await getData();
+  console.log('Stored: ', data);
+  setSelected(data)
+};
+
 useEffect(() => {
-  const fetchData = async () => {
-    const data = await getData();
-    console.log('Stored: ', data);
-  };
   fetchData();
 }, []);
 
@@ -48,7 +51,7 @@ useEffect(() => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-      storeData([...selected, day.dateString])
+      storeData([...selected, day.dateString]) //todo fix?
   
     }
      }
