@@ -48,8 +48,8 @@ useEffect(() => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-    storeData(markedDates) //does it go here??
-    console.log('store: ', getData()) //not resolving, why??
+    storeData(markedDates) 
+  
     }
      }
   
