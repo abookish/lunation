@@ -24,6 +24,14 @@ const storeData = async (value: any) => {
     // saving error
   }
 };
+const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('my-key');
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
 
 
   return (
@@ -33,7 +41,8 @@ const storeData = async (value: any) => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-    storeData(markedDates)
+    storeData(markedDates) //todo probs doesnt go here
+    console.log('store: ', getData())
     }
      }
   
