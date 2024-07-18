@@ -1,4 +1,5 @@
-import { isSameDay, addDays } from 'date-fns';
+import { isSameDay, addDays, subDays, parseISO } from 'date-fns';
+import { getCalendarDateString } from 'react-native-calendars/src/services'; //todo
 //todo label groups of days 
 //add attribute start
 //add attribute end?
@@ -10,19 +11,40 @@ let startEndPairs: Object //store if it's start or end in the calendar?  probs s
 //todo is it a string or a Date?
 export const getIsStartandIsEnd = (dateString: string, dateStringArray: string[]):Object =>{
 //convert to date
-const date = new Date(dateString)
-const dateValue = date.getDate()
-const nextDay = date.setDate(dateValue + 1);
-const prevDay = date.setDate(dateValue - 1);
-const includesTomorrow = dateStringArray.includes(nextDay.toString())
-const includesYesterday = dateStringArray.includes(prevDay.toString())
+const date = parseISO(dateString)
+const nextDay = addDays(date,1)
+const prevDay = subDays(date,1);
+const includesTomorrow = dateStringArray.includes(getCalendarDateString(nextDay))
+const includesYesterday = dateStringArray.includes(getCalendarDateString(prevDay))
 //some operation if found to be startdate so we aren't iterating a million times???
 return {
-startingDay: includesTomorrow && !includesYesterday,
-endingDay: includesYesterday && !includesTomorrow
+startingDay: !includesYesterday,
+endingDay:  !includesTomorrow
 }
 
+}
 
+type dateObjectsArray = {
+    startingDay: Boolean,
+    endingDay: Boolean
+}
+
+//need objects stored somewhere
+export function getEndDateStartDatePairs (dateObjectsArray: dateObjectsArray[]): void {
+    let pairs = []
+    let startDays = dateObjectsArray.filter(eachObj => {
+        eachObj.startingDay = true
+    })
+    let endDays = dateObjectsArray.filter(eachObj => {
+        eachObj.startingDay = true
+    })
+    startDays.forEach(start => {
+        //return first date that is after start
+        //maybe sort then split on starts?
+    })
+}
+
+export function getPeriodLength (startDate: string, objectsArray: Object[]): void {
 
 }
 //group consecutive days into periodArrays ?

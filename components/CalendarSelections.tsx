@@ -24,7 +24,8 @@ export function CalendarSelections() {
 const fetchData = async () => { //todo make this get/fetch combo more concise or something
   const data = await getData();
   console.log('Stored: ', data);
-  setSelected(data)  //how to handle if I'm instead storing a key/val of datestring: {attributes}
+  setSelected(data)  //how to handle if I'm instead storing a key/val of datestring: {attributes} maybe only store as dates bc first/last will change w. selection?
+  //maybe store a seperate array of
 };
 
 useEffect(() => {
@@ -39,6 +40,7 @@ useEffect(() => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
+      //console.log(getIsStartandIsEnd(day.dateString,selected))
       storeData([...selected, day.dateString]) //todo add to storage instead of rewrite lol, add as datestring: object
       //todo store attribute of start, end
   
