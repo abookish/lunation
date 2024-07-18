@@ -51,7 +51,7 @@ useEffect(() => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-      storeData([...selected, day.dateString]) //todo fix?
+      storeData([...selected, day.dateString]) //todo add to storage instead of rewrite lol
   
     }
      }
