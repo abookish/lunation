@@ -2,8 +2,9 @@ import { StyleSheet } from 'react-native';
 import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
 import React, {useState, useEffect}from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-//todo async storage
+import {getData, storeData} from '../utils/dataMethods'
+import {getIsStartandIsEnd} from '../utils/periodCalcs'
+//todo store existing start/end to load correctly
 // todo first day/last day stuff
 //todo basic math stuff
 
@@ -13,30 +14,17 @@ export function CalendarSelections() {
   let markedDates = Object.fromEntries(
   selected.map((date: any) => [
     date,
-    { selected: true, disableTouchEent: true, color: 'green' }
+    {
+      selected: true, color: 'green' ,
+    ...getIsStartandIsEnd(date, selected)
+  }
   ])
 );
-const storeData = async (value: any) => {
-  try {
-    const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('my-key', jsonValue); //todo add, don't set
-  } catch (e) {
-    // saving error
-  }
-};
-//todo useEffect with selected as a condition? or better to reformat each time? 
-const getData = async () => {
-  try {
-    const jsonValue = await AsyncStorage.getItem('my-key');
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
-  }
-};
+
 const fetchData = async () => { //todo make this get/fetch combo more concise or something
   const data = await getData();
   console.log('Stored: ', data);
-  setSelected(data)
+  setSelected(data)  //how to handle if I'm instead storing a key/val of datestring: {attributes}
 };
 
 useEffect(() => {
@@ -51,7 +39,8 @@ useEffect(() => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-      storeData([...selected, day.dateString]) //todo add to storage instead of rewrite lol
+      storeData([...selected, day.dateString]) //todo add to storage instead of rewrite lol, add as datestring: object
+      //todo store attribute of start, end
   
     }
      }
