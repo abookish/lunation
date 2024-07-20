@@ -1,4 +1,4 @@
-import { Image, Platform } from 'react-native';
+import { Button, Image, Platform } from 'react-native';
 import React, {useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -7,12 +7,19 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+
+const clearAsyncStorage = async() => {
+  AsyncStorage.clear();
+}
 
 export default function HomeScreen() {
  
 
   return (
+    
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
@@ -25,7 +32,10 @@ export default function HomeScreen() {
         <ThemedText type="title">Hello world!</ThemedText>
         <HelloWave />
       </ThemedView>
+      
    <CalendarSelections />
+   <Button title="clear" onPress={clearAsyncStorage}>
+</Button>
     </ParallaxScrollView>
   );
 }

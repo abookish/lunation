@@ -3,7 +3,7 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
 import React, {useState, useEffect}from 'react';
 import {getData, storeData} from '../utils/dataMethods'
-import {getIsStartandIsEnd} from '../utils/periodCalcs'
+import {getIsStartandIsEnd, makeDateDataObject, setPeriodEndDate} from '../utils/dateObjectMethods'
 //todo store existing start/end to load correctly
 // todo first day/last day stuff
 //todo basic math stuff
@@ -11,26 +11,26 @@ import {getIsStartandIsEnd} from '../utils/periodCalcs'
 export function CalendarSelections() {
    
   const [selected, setSelected] = useState<string[]>([])
-  let markedDates = Object.fromEntries(
-  selected.map((date: any) => [
-    date,
-    {
-      selected: true, color: 'green' ,
-    ...getIsStartandIsEnd(date, selected)
-  }
-  ])
-);
+  const [selectedDateObjectArray, setArray] = useState<Object[]>([]) //todo use this properly instead of just calling
+ 
+
+let markedDates = makeDateDataObject(selected)
 
 const fetchData = async () => { //todo make this get/fetch combo more concise or something
   const data = await getData();
   console.log('Stored: ', data);
-  setSelected(data)  //how to handle if I'm instead storing a key/val of datestring: {attributes} maybe only store as dates bc first/last will change w. selection?
+  if (data) setSelected(data)  //how to handle if I'm instead storing a key/val of datestring: {attributes} maybe only store as dates bc first/last will change w. selection?
   //maybe store a seperate array of
 };
 
 useEffect(() => {
   fetchData();
 }, []);
+
+useEffect(() => {
+  if (selected) setPeriodEndDate(makeDateDataObject(selected)); //todo completely breaks if no data
+  console.log(selected)
+}, [selected]);
 
 
   return (
