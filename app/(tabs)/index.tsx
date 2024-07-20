@@ -2,12 +2,13 @@ import { Button, Image, Platform } from 'react-native';
 import React, {useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { CalendarSelections } from '@/components/CalendarSelections';
+import { CalendarSelections, markedDates } from '@/components/CalendarSelections';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirstDayLastPeriodString } from '@/utils/dateObjectMethods';
 
 
 
@@ -29,7 +30,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello world!</ThemedText>
+        <ThemedText type="title">{Object.keys(markedDates)}</ThemedText>
         <HelloWave />
       </ThemedView>
       

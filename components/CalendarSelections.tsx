@@ -7,14 +7,16 @@ import {getIsStartandIsEnd, makeDateDataObject, setPeriodEndDate} from '../utils
 //todo store existing start/end to load correctly
 // todo first day/last day stuff
 //todo basic math stuff
+let markedDates = {}
+let selected
 
 export function CalendarSelections() {
    
   const [selected, setSelected] = useState<string[]>([])
+  const [markedDates, setMarkedDates] = useState<string[]>([])
   const [selectedDateObjectArray, setArray] = useState<Object[]>([]) //todo use this properly instead of just calling
  
 
-let markedDates = makeDateDataObject(selected)
 
 const fetchData = async () => { //todo make this get/fetch combo more concise or something
   const data = await getData();
@@ -28,7 +30,11 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (selected) setPeriodEndDate(makeDateDataObject(selected)); //todo completely breaks if no data
+  if (selected) {
+    setPeriodEndDate(makeDateDataObject(selected)); 
+    makeDateDataObject(selected)
+  }//todo completely breaks if no data
+
   console.log(selected)
 }, [selected]);
 
@@ -40,16 +46,14 @@ useEffect(() => {
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
-      //console.log(getIsStartandIsEnd(day.dateString,selected))
-      storeData([...selected, day.dateString]) //todo add to storage instead of rewrite lol, add as datestring: object
-      //todo store attribute of start, end
-  
+      storeData([...selected, day.dateString]) 
     }
      }
   
   />
   );
 }
+export {markedDates}
 //get selected
 //json stringify
 
