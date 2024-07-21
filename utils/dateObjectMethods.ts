@@ -5,6 +5,7 @@ import { convertDatestringArrayToDates } from './dateConversionUtils';
 
 export const makeDateDataObject = (dateStringArray: string[]|null) => {
   if (!dateStringArray) {
+    console.log(`dateStringArray was ${dateStringArray}, returning null`)
     return null
   } else{
     return Object.fromEntries(dateStringArray?.map((date: any) => [
@@ -52,25 +53,31 @@ const startingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObje
 return sortAscendingDateStrings(startingDates)
 }
 const getSortedEndDates = (dateDataObject: datesObject): string[] => {
-  const endingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].startingDay)
+  const endingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].endingDay)
   return sortAscendingDateStrings(endingDates)
   }
 //todo maybe don't pass i tin?
-export function setPeriodEndDate (dateDataObject: datesObject): any { 
+export function setPeriodEndDate (dateDataObject: any): any {  //todo types
+  console.log(dateDataObject)
+  if (!dateDataObject) {return "YIKES"}
   const startDateStrings = getSortedStartDates(dateDataObject)
   const endDateStrings = getSortedEndDates(dateDataObject)
   startDateStrings.forEach((dateString, index) => {
-    console.log(dateString) //todo not a string??
+    console.log(`getting end date for ${dateString}`) //todo not a string??
     console.log(dateDataObject)
     console.log(dateDataObject[dateString])
-    dateDataObject[dateString].periodEnd= endDateStrings[index] //todo does this mutate original object?
+    console.log(`its enddate is ${endDateStrings[index]}`)
+   dateDataObject[dateString].periodEnd= endDateStrings[index] //todo does this mutate original object?
   //  console.log(endDateStrings[index])
 })
 }
 export function getFirstDayLastPeriodString(dateDataObject: datesObject): string {
   //todo update util methods so I'm not converting them back and forth, but later
+  
   const arrayStartDates = getSortedStartDates(dateDataObject)
-  return arrayStartDates[-1]
+  console.log("ARRAY", arrayStartDates)
+
+  return arrayStartDates.reverse()[0]
 
 }
 export function getPeriodLength (startDate: string, objectsArray: Object[]): void {

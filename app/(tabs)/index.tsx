@@ -10,7 +10,12 @@ import { ThemedView } from '@/components/ThemedView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirstDayLastPeriodString } from '@/utils/dateObjectMethods';
 
-
+//todo put things in parent to pass them around? can I update parent things from child?
+// fetch prev selected
+//pass to calendar
+//from calender pass selected which is now updated to some dateObjects constructor
+//some calculation object?
+//pass marked days back up to Parent somehow?
 
 const clearAsyncStorage = async() => {
   AsyncStorage.clear();
@@ -30,7 +35,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">{Object.keys(markedDates)}</ThemedText>
+        <ThemedText type="title">{"Hello World"}</ThemedText>
         <HelloWave />
       </ThemedView>
       
