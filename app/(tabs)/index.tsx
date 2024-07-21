@@ -1,18 +1,31 @@
-import { Image, Platform } from 'react-native';
+import { Button, Image, Platform } from 'react-native';
 import React, {useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { CalendarSelections } from '@/components/CalendarSelections';
+import { CalendarSelections, markedDates } from '@/components/CalendarSelections';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirstDayLastPeriodString } from '@/utils/dateObjectMethods';
 
+//todo put things in parent to pass them around? can I update parent things from child?
+// fetch prev selected
+//pass to calendar
+//from calender pass selected which is now updated to some dateObjects constructor
+//some calculation object?
+//pass marked days back up to Parent somehow?
+
+const clearAsyncStorage = async() => {
+  AsyncStorage.clear();
+}
 
 export default function HomeScreen() {
  
 
   return (
+    
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
@@ -22,10 +35,13 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello world!</ThemedText>
+        <ThemedText type="title">{"Hello World"}</ThemedText>
         <HelloWave />
       </ThemedView>
+      
    <CalendarSelections />
+   <Button title="clear" onPress={clearAsyncStorage}>
+</Button>
     </ParallaxScrollView>
   );
 }
