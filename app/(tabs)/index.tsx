@@ -1,14 +1,17 @@
 import { Button, Image, Platform } from 'react-native';
-import React, {useState}from 'react';
+import React, {useEffect, useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { CalendarSelections, markedDates } from '@/components/CalendarSelections';
+import { CalendarSelections } from '@/components/CalendarSelections';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirstDayLastPeriodString } from '@/utils/dateObjectMethods';
+import { getData } from '@/utils/dataMethods';
+
+
 
 //todo put things in parent to pass them around? can I update parent things from child?
 // fetch prev selected
@@ -22,7 +25,27 @@ const clearAsyncStorage = async() => {
 }
 
 export default function HomeScreen() {
- 
+
+  const [stored, setStored] = useState<string[]>([])
+  const [dataLoaded, setDataLoaded] = useState<Boolean>(false)
+
+const fetchData = async () => { //todo make this get/fetch combo more concise or something
+  const data = await getData()
+  console.log(data)
+  if (data?.length > 0) 
+    {setStored(data)}
+  setDataLoaded(true)
+}
+
+useEffect( () => {
+  console.log("trying to fetch")
+  fetchData()
+  console.log(stored)
+}, []);
+
+ if (!dataLoaded) {
+  return "Fetching data"
+ }
 
   return (
     
@@ -39,7 +62,7 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       
-   <CalendarSelections />
+   <CalendarSelections selected={stored}/>
    <Button title="clear" onPress={clearAsyncStorage}>
 </Button>
     </ParallaxScrollView>
