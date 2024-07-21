@@ -19,7 +19,8 @@ export function CalendarSelections() {
 
 const fetchData = async () => { //todo make this get/fetch combo more concise or something
   const data = await getData()
-  if (data.length > 0) setSelected(data)
+  if (data?.length > 0) 
+    {setSelected(data)}
 }
 
 useEffect( () => {
