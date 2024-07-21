@@ -85,6 +85,7 @@ const getSortedEndDates = (dateDataObject: datesObject): string[] => {
     console.log('marked: ', markedDates)
     console.log(props.selected)
   }, [props.selected]);
+  
   useEffect(() => {
     if (Object.keys(markedDates).length > 0) {
       setPeriodEndDate(markedDates); 
