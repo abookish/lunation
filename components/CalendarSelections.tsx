@@ -3,8 +3,7 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
 import React, {useState, useEffect}from 'react';
 import {getData, storeData} from '../utils/dataMethods'
-import {datesObject, getFirstDayLastPeriodString, getIsStartandIsEnd, makeDateDataObject, setPeriodEndDate} from '../utils/dateObjectMethods'
-//todo store existing start/end to load correctly
+import { DateObject } from './DateObject'
 // todo first day/last day stuff
 //todo basic math stuff
 let selected
@@ -15,38 +14,22 @@ export function CalendarSelections(
 ) {
    
   const [selected, setSelected] = useState<string[]>(props.selected|| [])
-  const [markedDates, setMarkedDates] = useState<datesObject>({}) 
  
-
+let markedDates = DateObject({selected:selected})
 
 
 useEffect(() => {
 console.log(`logging every udpate to selected, it ${selected}`)
 }, [selected]);
 
-useEffect(() => {
-  if (selected.length > 0) {
-    setMarkedDates(makeDateDataObject(selected))
-  }
-  console.log('marked: ', markedDates)
-  console.log(selected)
-}, [selected]);
 
-useEffect(() => {
-  if (Object.keys(markedDates).length > 0) {
-    setPeriodEndDate(markedDates); 
-  }
-  console.log('marked: ', markedDates)
-  console.log(selected)
-}, [markedDates]);
-
+//<div><>first date of last period is {getFirstDayLastPeriodString(markedDates)}</> </div>
 
   return (
-    <div>
-      <>first date of last period is {getFirstDayLastPeriodString(markedDates)}</>
+    
     <Calendar
     markingType={'period'}
-    markedDates={markedDates}
+    markedDates= {markedDates}
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
       setSelected(prevSelected => [...prevSelected, day.dateString]);
@@ -56,7 +39,7 @@ useEffect(() => {
      }
   
   />
-  </div>
+ 
   );
 }
 //export {markedDates}
