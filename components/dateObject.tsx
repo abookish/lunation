@@ -9,6 +9,21 @@ type datesObject = {[date:string]:{ //todo include other attributes?
   periodEnd?:string
 }
 }
+const getSortedStartDates = (dateDataObject: datesObject): string[] => { //todo store this as a var instead of recalcing
+  const startingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].startingDay)
+  return sortAscendingDateStrings(startingDates)
+  }
+  const getSortedEndDates = (dateDataObject: datesObject): string[] => {
+    const endingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].endingDay)
+    return sortAscendingDateStrings(endingDates)
+    }
+export function getFirstDayLastPeriodString(dateDataObject: datesObject): string {
+  //todo where to put this??
+  
+  const arrayStartDates = getSortedStartDates(dateDataObject)
+  return arrayStartDates.reverse()[0]
+
+}
 export function DateObject(
 
   props: { selected: string[]}
@@ -37,14 +52,7 @@ return !dateStringArray.includes(getCalendarDateString(nextDay))
 } //todo convert to date elsewhere so we only do it once?
 
 
- const getSortedStartDates = (dateDataObject: datesObject): string[] => { //todo store this as a var instead of recalcing
-const startingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].startingDay)
-return sortAscendingDateStrings(startingDates)
-}
-const getSortedEndDates = (dateDataObject: datesObject): string[] => {
-  const endingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].endingDay)
-  return sortAscendingDateStrings(endingDates)
-  }
+
   //when to set end dates?
   function setPeriodEndDate (dateDataObject: any): any {  //todo types
     if (!dateDataObject) {return "YIKES"}
@@ -54,13 +62,7 @@ const getSortedEndDates = (dateDataObject: datesObject): string[] => {
      dateDataObject[dateString].periodEnd= endDateStrings[index] //todo does this mutate original object?
   })
   }
-   function getFirstDayLastPeriodString(dateDataObject: datesObject): string {
-    //todo where to put this??
-    
-    const arrayStartDates = getSortedStartDates(dateDataObject)
-    return arrayStartDates.reverse()[0]
   
-  }
    function getPeriodLength (startDate: string, objectsArray: Object[]): void {
   
   }
@@ -85,7 +87,7 @@ const getSortedEndDates = (dateDataObject: datesObject): string[] => {
     console.log('marked: ', markedDates)
     console.log(props.selected)
   }, [props.selected]);
-  
+
   useEffect(() => {
     if (Object.keys(markedDates).length > 0) {
       setPeriodEndDate(markedDates); 
