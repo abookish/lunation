@@ -4,6 +4,7 @@ import dateFns from 'date-fns';
 import React, {useState, useEffect}from 'react';
 import {getData, storeData} from '../utils/dataMethods'
 import { DateObject, getFirstDayLastPeriodString } from './DateObject'
+import DefaultExample from './InfoBox';
 // todo first day/last day stuff
 //todo basic math stuff
 let selected
@@ -27,12 +28,13 @@ console.log(`logging every udpate to selected, it ${selected}`)
   return (
     <div>
       <>first date of last period is {getFirstDayLastPeriodString(markedDates)}</>
+      <DefaultExample></DefaultExample>
     <Calendar
     markingType={'period'}
     markedDates= {markedDates}
     onDayPress={(day:any) => {
       console.log('onDayPress', day)
-      setSelected(prevSelected => [...prevSelected, day.dateString]);
+      setSelected((prevSelected: any) => [...prevSelected, day.dateString]);
       storeData([...selected, day.dateString]) 
     }
      }
@@ -41,7 +43,7 @@ console.log(`logging every udpate to selected, it ${selected}`)
   );
 }
 //export {markedDates}
-//get selected
+//get selectedg
 //json stringify
 
 //store
