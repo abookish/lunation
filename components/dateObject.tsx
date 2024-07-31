@@ -9,20 +9,32 @@ type datesObject = {[date:string]:{ //todo include other attributes?
   periodEnd?:string
 }
 }
+export function getDateObjectsForStartDates(dateDataObject: datesObject): datesObject {
+  const filtered = Object.fromEntries(
+    Object.entries(dateDataObject).filter(
+       ([key, value])=>value.startingDay
+    )
+ );
+console.log("filtered", filtered)
+ //return filtered
+  
+}
 const getSortedStartDates = (dateDataObject: datesObject): string[] => { //todo store this as a var instead of recalcing
   const startingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].startingDay)
   return sortAscendingDateStrings(startingDates)
+  //todo pass in just the filtered objects that are starting days data
   }
   const getSortedEndDates = (dateDataObject: datesObject): string[] => {
     const endingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].endingDay)
     return sortAscendingDateStrings(endingDates)
     }
-export function getFirstDayLastPeriodString(dateDataObject: datesObject): string {
-  //todo where to put this??
-  
+export function getFirstDayLastPeriodString(dateDataObject: datesObject): string {  
   const arrayStartDates = getSortedStartDates(dateDataObject)
   return arrayStartDates.reverse()[0]
-
+}
+export function getEndDateStartDatePairs(dateDataObject: datesObject): string {  
+  const arrayStartDates = getSortedStartDates(dateDataObject)
+  return arrayStartDates.reverse()[0]
 }
 export function DateObject(
 
