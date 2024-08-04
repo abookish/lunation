@@ -8,7 +8,6 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getFirstDayLastPeriodString } from '@/utils/dateObjectMethods';
 import { getData } from '@/utils/dataMethods';
 
 
@@ -16,6 +15,7 @@ import { getData } from '@/utils/dataMethods';
 //todo put things in parent to pass them around? can I update parent things from child?
 // fetch prev selected
 //pass to calendar
+//todo store this somewhere instead of recalcing constantly getDateObjectsForStartDates
 //from calender pass selected which is now updated to some dateObjects constructor
 //some calculation object?
 //pass marked days back up to Parent somehow?
