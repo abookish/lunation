@@ -11,16 +11,19 @@ export function getFirstDayLastPeriodString(dateDataObject: datesObject): string
   //todo combine/abstract with the startdate objects
   return arrayStartDates.reverse()[0]
 } 
-type lengthsObject = {[date: string]: { //todo make it a map instead ??
-length?: number
-}}
+type lengthsObject = {[date: string] : number | undefined}
+
 function getPeriodLengths (dateDataObject: datesObject): lengthsObject {
   let lengthObject: lengthsObject = {}
   const startDateObjects = getDateObjectsForStartDates(dateDataObject)
+  console.log(JSON.stringify(startDateObjects))
   for (const [key, value] of Object.entries(startDateObjects)){
     console.log("this is value from period lengths ", value)
-    lengthObject[key]={length: value.length}
+    console.log(`this is value["length"] ${value.length}`)
+    lengthObject[key]=value.length
+    console.log(lengthObject)
   }
+  console.log(lengthObject)
 return lengthObject
   }
   
@@ -40,21 +43,11 @@ function BasicExample(props: { dateDataObject: datesObject}) {
       <tbody>
         <tr>
           <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>{JSON.stringify(getPeriodLengths(props.dateDataObject))}</td>
+          <td></td>
+          <td>period dates</td>
+          <td colSpan={2}>{JSON.stringify(getPeriodLengths(props.dateDataObject))}</td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+  
       </tbody>
     </Table>
   );

@@ -15,13 +15,6 @@ export function DateObject(
   props: { selected: string[]}
 ){
   const [markedDates, setMarkedDates] = useState<datesObject>({}) 
-
-  const [lengthsObject, setLengthsObject] = useState<Object>({})
-  //let updatedValue = {item1:e.target.value};
-  const updateLength = (newLength: Object ): void => setLengthsObject(lengthsObject => ({
-    ...lengthsObject,
-    ...newLength
-  }));
  
 
   //when to set end dates?
