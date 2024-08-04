@@ -1,83 +1,55 @@
-import { isSameDay, addDays, subDays, parseISO, isAfter, isToday, } from 'date-fns';
-import { getCalendarDateString } from 'react-native-calendars/src/services'; //todo check what it's doing, is it safe to leave it here?
-import {sortAscendingDateStrings} from '../utils/sortingUtils'
 import { useEffect, useState } from 'react';
+import { getDateObjectsForEndDates, getDateObjectsForStartDates, getIsStartandIsEnd, getSortedDates } from '@/utils/dateObjectMethods';
+import { differenceInDays } from 'date-fns';
 
-type datesObject = {[date:string]:{ //todo include other attributes?
+export type datesObject = {[date:string]:{ //todo include other attributes?
   startingDay: Boolean,
   endingDay: Boolean,
-  periodEnd?:string
+  periodEnd?:string,
+  length?: number
 }
 }
-export function getDateObjectsForStartDates(dateDataObject: datesObject): datesObject {
-  const filtered = Object.fromEntries(
-    Object.entries(dateDataObject).filter(
-       ([key, value])=>value.startingDay
-    )
- );
-console.log("filtered", filtered)
- //return filtered
-  
-}
-const getSortedStartDates = (dateDataObject: datesObject): string[] => { //todo store this as a var instead of recalcing
-  const startingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].startingDay)
-  return sortAscendingDateStrings(startingDates)
-  //todo pass in just the filtered objects that are starting days data
-  }
-  const getSortedEndDates = (dateDataObject: datesObject): string[] => {
-    const endingDates = Object.keys(dateDataObject).filter(eachKey => dateDataObject[eachKey].endingDay)
-    return sortAscendingDateStrings(endingDates)
-    }
-export function getFirstDayLastPeriodString(dateDataObject: datesObject): string {  
-  const arrayStartDates = getSortedStartDates(dateDataObject)
-  return arrayStartDates.reverse()[0]
-}
-export function getEndDateStartDatePairs(dateDataObject: datesObject): string {  
-  const arrayStartDates = getSortedStartDates(dateDataObject)
-  return arrayStartDates.reverse()[0]
-}
+
 export function DateObject(
 
   props: { selected: string[]}
 ){
   const [markedDates, setMarkedDates] = useState<datesObject>({}) 
 
-
- const getIsStartandIsEnd = (dateString: string, dateStringArray: string[]):Object =>{ //get is start and is end, do the iterating in here, 
-//convert to date
-const date = parseISO(dateString)
-
-return {
-startingDay: getIsStartingDay(date, dateStringArray),
-endingDay: getIsEndingDay(date, dateStringArray)
-} 
-
-}
-
-const getIsStartingDay = (date: Date, dateStringArray: string[]):Boolean =>{
-    const prevDay = subDays(date,1);
-    return !dateStringArray.includes(getCalendarDateString(prevDay))
-} //todo convert to date elsewhere so we only do it once?
-const getIsEndingDay = (date: Date, dateStringArray: string[]):Boolean =>{
-const nextDay = addDays(date,1)
-return !dateStringArray.includes(getCalendarDateString(nextDay))
-} //todo convert to date elsewhere so we only do it once?
-
-
+  const [lengthsObject, setLengthsObject] = useState<Object>({})
+  //let updatedValue = {item1:e.target.value};
+  const updateLength = (newLength: Object ): void => setLengthsObject(lengthsObject => ({
+    ...lengthsObject,
+    ...newLength
+  }));
+ 
 
   //when to set end dates?
-  function setPeriodEndDate (dateDataObject: any): any {  //todo types
-    if (!dateDataObject) {return "YIKES"}
-    const startDateStrings = getSortedStartDates(dateDataObject)
-    const endDateStrings = getSortedEndDates(dateDataObject)
+  function setPeriodEndDate (dateDataObject: datesObject): any {  //todo types
+    if (!dateDataObject) {return "YIKES"}  //todo use getDateObjectsForStartDates
+    console.log('set period end date')
+    const startDateObjects = getDateObjectsForStartDates(dateDataObject)
+    const endDateObjects = getDateObjectsForEndDates(dateDataObject)
+    const startDateStrings = getSortedDates(startDateObjects) //todo just store start and end dates in a better way
+    const endDateStrings = getSortedDates(endDateObjects)
     startDateStrings.forEach((dateString, index) => {
-     dateDataObject[dateString].periodEnd= endDateStrings[index] //todo does this mutate original object?
+        dateDataObject[dateString].periodEnd= endDateStrings[index] //todo do  still need to set periodEnd?
+        let length = differenceInDays(endDateStrings[index], dateString) + 1
+        console.log('looping through')
+        dateDataObject[dateString].length=length
+
+       //todo make more efficient, store, maybe conditionally update
+
+
+    
   })
+     
+     //setLengthsObject? Or add to somehow?
+     //differenceInDays 
+  
   }
   
-   function getPeriodLength (startDate: string, objectsArray: Object[]): void {
-  
-  }
+ 
   function makeDateDataObject (): any
   { if (!props.selected || props.selected.length <1) {
     return null} else {

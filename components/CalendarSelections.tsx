@@ -3,8 +3,9 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
 import React, {useState, useEffect}from 'react';
 import {getData, storeData} from '../utils/dataMethods'
-import { DateObject, getFirstDayLastPeriodString, getDateObjectsForStartDates } from './DateObject'
-import DefaultExample from './InfoBox';
+import { DateObject } from './DateObject'
+import DefaultExample, { getFirstDayLastPeriodString } from './InfoBox';
+import { getDateObjectsForStartDates } from '@/utils/dateObjectMethods';
 // todo first day/last day stuff
 //todo basic math stuff
 let selected
@@ -27,8 +28,8 @@ console.log(`logging every udpate to selected, it ${selected}`)
 
   return (
     <div>
-      <>first date of last period is {getFirstDayLastPeriodString(markedDates)}</>
-      <DefaultExample></DefaultExample>
+     
+      <DefaultExample dateDataObject={markedDates}></DefaultExample>
     <Calendar
     markingType={'period'}
     markedDates= {markedDates}
