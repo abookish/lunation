@@ -3,7 +3,7 @@ import { Calendar, CalendarList } from 'react-native-calendars';
 import dateFns from 'date-fns';
 import React, {useState, useEffect}from 'react';
 import {getData, storeData} from '../utils/dataMethods'
-import { DateObject } from './DateObject'
+import { DateObject } from './dateObjectSilly';
 import BasicExample, { getFirstDayLastPeriodString } from './InfoBox';
 import { getDateObjectsForStartDates } from '@/utils/dateObjectMethods';
 // todo first day/last day stuff
